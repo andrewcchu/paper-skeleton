@@ -4,6 +4,66 @@
 
 A minimal latex paper skeleton file for writing conference papers. The Makefile requires "rubber", but you can easily change this to build with "pdflatex" instead.
 
+## TeX / Sublime Text
+
+[Sublime Text](https://www.sublimetext.com/)
+
+### TeX Sync: Useful quality of life for writing LaTeX
+- [Skim](https://skim-app.sourceforge.io/)
+- Install [LaTeXTools](https://github.com/SublimeText/LaTeXTools)
+- Sublime Text setup for Skim Sync
+  * https://jon-e.net/blog/2022/04/16/a-halfway-decent-latex-setup/#latextools-setup
+  * https://jj09.net/latex-with-sublimetext-and-skim/
+  * https://github.com/noise-lab/paper-skeleton
+    * Makefile "pdf" commands here can be placed in Builder settings for Sublime Tools LaTeXTools Builder Settings (`Sublime Text --> Preferences --> Package Settings --> LaTeXTools --> Settings - User --> Line 403`
+```json
+	"builder_settings" : {
+
+		// General settings:
+		// See README or third-party documentation
+
+		// (built-ins): true shows the log of each command in the output panel
+		"display_log" : false,
+		"program": "xelatex",
+
+		// Platform-specific settings:
+		"osx" : {
+			// See README or third-party documentation
+			"script_commands": ["latexmk -latexoption=\"-file-line-error -8bit\" -xelatex paper.tex"]
+		},
+
+		"windows" : {
+			// See README or third-party documentation
+		},
+
+		"linux" : {
+			// See README or third-party documentation
+		}
+	},
+```
+  * Add `\synctex=1` to `paper.tex`. In each section referred to in `main.tex`, add `%!TEX root = ../paper.tex`
+- After setting up above, set build for the first time via: `Tools --> Build System --> LaTeX` and then `Tools --> Build With --> LaTeX - Script Builder`. Subsequent builds can be made with `cmd + b` or `cmd + s`
+- **DO NOT BUILD WITH `make` FROM COMMAND LINE BEFORE BUILDING WITH ABOVE METHOD`.** If you do, delete all paper.\* related compilation TeX files to get it to work
+
+### TeX AutoWrap: Helpful for smaller editing views and provides more granular PDF --> TeX lookup
+- Install [AutoWrap](https://packagecontrol.io/packages/AutoWrap)
+- Open a LaTeX file to create/edit syntax specific settings for TeX
+- Then, go to `Preference -> Settings - More -> Syntax Specific - User`, and add:
+```
+// These settings override both User and Default settings for the LaTeX syntax
+{
+  "on_post_save_async_language": [
+    {
+        "command": "build",
+        "scope": "window"
+    }
+  ],
+  "auto_wrap": true,
+  "auto_wrap_width": 78
+}
+```
+- Make sure AutoWrap is enabled: `Edit --> AutoWrap`
+
 ## GitHub
 
 **Overview.** The preferred method for authoring papers in our group is with Github. There are many advantages to doing so, most notably:
